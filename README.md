@@ -1,0 +1,2 @@
+# AUGiSProject
+Projekt na GiS
