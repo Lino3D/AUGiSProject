@@ -9,7 +9,7 @@ namespace AzureAuthenticationApp
 		public App ()
 		{
 			// The root page of your application
-		    MainPage = new NavigationPage( new AzureAuthenticationApp.Views.MainPage());
+		   MainPage = new NavigationPage( new AzureAuthenticationApp.Views.MainPage());
 		}
 
 		protected override void OnStart ()

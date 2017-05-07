@@ -10,8 +10,9 @@
             <!--      <WebView x:Name="MapDisplayView" WidthRequest="1000" HeightRequest="500" VerticalOptions="FillAndExpand"></WebView>-->
             <Button Text="Click Me" Command="{Binding IncreaseCountCommand}" />
             <Label Text="{Binding CountDisplay}" />
-            <models:CustomMap x:Name="MyMap"   WidthRequest="320" HeightRequest="200"
-                              MapTileTemplate="http://samorzad.mini.pw.edu.pl/plan2/images/Pietro3/{z}/{x}/{y}.png"/>
+<!--            <models:CustomMap x:Name="MyMap"   WidthRequest="320" HeightRequest="200"-->
+<!--                              MapTileTemplate="http://samorzad.mini.pw.edu.pl/plan2/images/Pietro3/{z}/{x}/{y}.png"/>-->
+            <maps:Map x:Name="MyMap" WidthRequest="320" HeightRequest="200"></maps:Map>
         </StackLayout>
     </ScrollView>
 </ContentPage>

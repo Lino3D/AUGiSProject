@@ -103,7 +103,6 @@
       <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup />
   <ItemGroup>
     <EmbeddedResource Include="Views\MapView.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
