@@ -25,8 +25,8 @@ namespace AzureAuthenticationApp.Views.MasterDetail
             {
                 MenuItems = new ObservableCollection<MenuDetailViewMenuItem>(new[]
                 {
-                    new MenuDetailViewMenuItem { Id = 0, Title = "Page 1", TargetType = typeof(MapView) },
-                    new MenuDetailViewMenuItem { Id = 1, Title = "Page 2", },
+                    new MenuDetailViewMenuItem { Id = 0, Title = "Mapa", TargetType = typeof(MapView) },
+                    new MenuDetailViewMenuItem { Id = 1, Title = "Menu", TargetType = typeof(MainPage)},
                 });
             }
 

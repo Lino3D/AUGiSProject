@@ -38,7 +38,6 @@
     <Compile Include="Dependencies\IBaseUrl.cs" />
     <Compile Include="Dependencies\IWifiInfo.cs" />
     <Compile Include="Helpers\EnumerableExtensions.cs" />
-    <Compile Include="Models\UI\BindablePicker.cs" />
     <Compile Include="Models\UI\CustomMap.cs" />
     <Compile Include="Models\PositionInfo.cs" />
     <Compile Include="Models\User.cs" />

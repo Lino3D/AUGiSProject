@@ -15,7 +15,7 @@ namespace AzureAuthenticationApp.Views
 
             MyMap.MoveToRegion(
                 MapSpan.FromCenterAndRadius(
-                    new Position(52.22207512938468, 21.006942987442017), Distance.FromMiles(1)));
+                    new Position(52.22207512938468, 21.006942987442017), Distance.FromMiles(0.3)));
 
                
         }
