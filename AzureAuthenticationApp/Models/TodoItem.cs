@@ -1,8 +1,7 @@
-﻿using System;
-using Microsoft.WindowsAzure.MobileServices;
+﻿using Microsoft.WindowsAzure.MobileServices;
 using Newtonsoft.Json;
 
-namespace AzureAuthenticationApp
+namespace AzureAuthenticationApp.Models
 {
 	public class TodoItem
 	{

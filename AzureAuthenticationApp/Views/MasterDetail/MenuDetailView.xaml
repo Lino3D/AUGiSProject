@@ -1,0 +1,18 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<MasterDetailPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="AzureAuthenticationApp.Views.MasterDetail.MenuDetailView"
+             xmlns:pages="clr-namespace:AzureAuthenticationApp.Views;assembly=AzureAuthenticationApp.Views"
+             xmlns:views="clr-namespace:AzureAuthenticationApp.Views;assembly=AzureAuthenticationApp"
+             xmlns:masterDetail="clr-namespace:AzureAuthenticationApp.Views.MasterDetail;assembly=AzureAuthenticationApp">
+  <MasterDetailPage.Master>
+    <masterDetail:MenuDetailViewMaster x:Name="MasterPage" />
+  </MasterDetailPage.Master>
+  <MasterDetailPage.Detail>
+    <NavigationPage>
+      <x:Arguments>
+        <views:MenuDetailViewDetail />
+      </x:Arguments>
+    </NavigationPage>
+  </MasterDetailPage.Detail>
+</MasterDetailPage>

@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace AzureAuthenticationApp
+﻿namespace AzureAuthenticationApp.Constants
 {
 	public static class Constants
 	{

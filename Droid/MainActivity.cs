@@ -8,6 +8,7 @@ using Android.Views;
 using Android.Widget;
 using Android.OS;
 using AzureAuthenticationApp.Dependencies;
+using AzureAuthenticationApp.Helpers;
 using Microsoft.WindowsAzure.MobileServices;
 
 namespace AzureAuthenticationApp.Droid

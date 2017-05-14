@@ -33,18 +33,23 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="Converters\FloorNumberToAddressConverter.cs" />
     <Compile Include="Dependencies\IAuthenticate.cs" />
     <Compile Include="Dependencies\IBaseUrl.cs" />
     <Compile Include="Dependencies\IWifiInfo.cs" />
-    <Compile Include="Models\CustomMap.cs" />
+    <Compile Include="Helpers\EnumerableExtensions.cs" />
+    <Compile Include="Models\UI\BindablePicker.cs" />
+    <Compile Include="Models\UI\CustomMap.cs" />
+    <Compile Include="Models\PositionInfo.cs" />
+    <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="App.cs" />
     <Compile Include="TodoList.xaml.cs">
       <DependentUpon>TodoList.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Constants.cs" />
-    <Compile Include="TodoItem.cs" />
-    <Compile Include="TodoItemManager.cs" />
+    <Compile Include="Constants\Constants.cs" />
+    <Compile Include="Models\TodoItem.cs" />
+    <Compile Include="Helpers\TodoItemManager.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
@@ -53,6 +58,16 @@
       <DependentUpon>MapView.xaml</DependentUpon>
     </Compile>
     <Compile Include="ViewModels\MapViewViewModel.cs" />
+    <Compile Include="Views\MasterDetail\MenuDetailView.xaml.cs">
+      <DependentUpon>MenuDetailView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MenuDetailViewDetail.xaml.cs">
+      <DependentUpon>MenuDetailViewDetail.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\MasterDetail\MenuDetailViewMaster.xaml.cs">
+      <DependentUpon>MenuDetailViewMaster.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Models\MenuDetailViewMenuItem.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <Import Project="..\packages\Xamarin.Forms.1.4.2.6359\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets" Condition="Exists('..\packages\Xamarin.Forms.1.4.2.6359\build\portable-win+net45+wp80+win81+wpa81+MonoAndroid10+MonoTouch10+Xamarin.iOS10\Xamarin.Forms.targets')" />
@@ -105,6 +120,24 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Views\MapView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\MasterDetail\MenuDetailView.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\MasterDetail\MenuDetailViewMaster.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="Views\MenuDetailViewDetail.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
       <SubType>Designer</SubType>
     </EmbeddedResource>

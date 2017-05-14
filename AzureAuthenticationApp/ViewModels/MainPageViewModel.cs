@@ -1,15 +1,16 @@
-﻿using System.ComponentModel;
+﻿using AzureAuthenticationApp.Dependencies;
+using AzureAuthenticationApp.Views;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
-using AzureAuthenticationApp.Dependencies;
-using AzureAuthenticationApp.Views;
 using Xamarin.Forms;
 
 namespace AzureAuthenticationApp.ViewModels
 {
-    class MainPageViewModel : INotifyPropertyChanged
+    internal class MainPageViewModel : INotifyPropertyChanged
     {
         private INavigation Navigation;
+
         public MainPageViewModel(INavigation navigation)
         {
             Navigation = navigation;
@@ -20,9 +21,10 @@ namespace AzureAuthenticationApp.ViewModels
             CheckWifiCommand = new Command(CheckWifi);
         }
 
-        int count;
+        private int count;
 
-        string countDisplay = "You clicked 0 times.";
+        private string countDisplay = "You clicked 0 times.";
+
         public string CountDisplay
         {
             get { return countDisplay; }
@@ -31,11 +33,9 @@ namespace AzureAuthenticationApp.ViewModels
 
         private bool authenticated;
 
-
-
         public ICommand IncreaseCountCommand { get; }
 
-        void IncreaseCount() =>
+        private void IncreaseCount() =>
             CountDisplay = $"You clicked {++count} times";
 
         public ICommand MoveToDoListCommand { get; }
@@ -45,7 +45,6 @@ namespace AzureAuthenticationApp.ViewModels
             await Navigation.PushAsync(new TodoList());
         }
 
-     
         public bool Authenticated
         {
             get => authenticated;
@@ -57,24 +56,26 @@ namespace AzureAuthenticationApp.ViewModels
         }
 
         public ICommand LoginCommand { get; }
+
         public async void Login()
         {
             if (App.Authenticator != null)
                 authenticated = await App.Authenticator.Authenticate();
 
             // Set syncItems to true to synchronize the data on startup when offline is enabled.
-
         }
+
         public ICommand OpenMapCommand { get; }
+
         public async void OpenMap()
         {
             await Navigation.PushAsync(new MapView());
         }
 
-
         private string wifiText;
 
         public ICommand CheckWifiCommand { get; }
+
         public string WifiText
         {
             get => wifiText;
@@ -90,16 +91,11 @@ namespace AzureAuthenticationApp.ViewModels
             var networkConnection = DependencyService.Get<IWifiInfoForms>();
             networkConnection.CheckNetworkConnection();
             WifiText = networkConnection.IsConnected ? "Connected" : "Not Connected";
-
-
-
         }
 
-
-
         public event PropertyChangedEventHandler PropertyChanged;
-        void OnPropertyChanged([CallerMemberName]string propertyName = "") =>
-            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
+        private void OnPropertyChanged([CallerMemberName]string propertyName = "") =>
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

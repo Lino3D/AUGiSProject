@@ -1,4 +1,6 @@
-﻿using System.ComponentModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
 using Xamarin.Forms;
@@ -8,24 +10,30 @@ namespace AzureAuthenticationApp.ViewModels
     class MapViewViewModel : INotifyPropertyChanged
     {
 
+        private int _floorNumber = 1;
+
+        public ObservableCollection<int> FloorsList { get; }
+
+
         public MapViewViewModel()
         {
-            IncreaseCountCommand = new Command(IncreaseCount);
+            FloorsList = new ObservableCollection<int>();
+            for (var i = 0; i < 6; i++)
+            {
+                FloorsList.Add(i);
+            }
         }
 
-        int count;
-
-        string countDisplay = "You clicked 0 times.";
-        public string CountDisplay
+        public int FloorNumber
         {
-            get { return countDisplay; }
-            set { countDisplay = value; OnPropertyChanged(); }
+            get { return _floorNumber; }
+            set {
+                _floorNumber = value;
+                OnPropertyChanged(); }
         }
 
-        public ICommand IncreaseCountCommand { get; }
+  
 
-        void IncreaseCount() =>
-            CountDisplay = $"You clicked {++count} times";
 
 
         public event PropertyChangedEventHandler PropertyChanged;

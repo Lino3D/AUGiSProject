@@ -11,9 +11,8 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
+using AzureAuthenticationApp.Models;
 using Microsoft.WindowsAzure.MobileServices;
 
 #if OFFLINE_SYNC_ENABLED
@@ -21,7 +20,7 @@ using Microsoft.WindowsAzure.MobileServices.SQLiteStore;
 using Microsoft.WindowsAzure.MobileServices.Sync;
 #endif
 
-namespace AzureAuthenticationApp
+namespace AzureAuthenticationApp.Helpers
 {
     public partial class TodoItemManager
     {
@@ -38,7 +37,7 @@ namespace AzureAuthenticationApp
 
         private TodoItemManager()
         {
-            this.client = new MobileServiceClient(Constants.ApplicationURL);
+            this.client = new MobileServiceClient(Constants.Constants.ApplicationURL);
 
 #if OFFLINE_SYNC_ENABLED
             var store = new MobileServiceSQLiteStore(offlineDbPath);
