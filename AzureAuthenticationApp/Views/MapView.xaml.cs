@@ -1,4 +1,5 @@
-﻿using AzureAuthenticationApp.ViewModels;
+﻿using Acr.UserDialogs;
+using AzureAuthenticationApp.ViewModels;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;
@@ -11,7 +12,7 @@ namespace AzureAuthenticationApp.Views
         public MapView()
         {
             InitializeComponent();
-            BindingContext = new MapViewViewModel();
+            BindingContext = new MapViewViewModel(UserDialogs.Instance);
 
             MyMap.MoveToRegion(
                 MapSpan.FromCenterAndRadius(

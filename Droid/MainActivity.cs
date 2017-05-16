@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
+using Acr.UserDialogs;
 using Android.App;
 using Android.Content;
 using Android.Content.PM;
@@ -9,6 +10,8 @@ using Android.Widget;
 using Android.OS;
 using AzureAuthenticationApp.Dependencies;
 using AzureAuthenticationApp.Helpers;
+using AzureAuthenticationApp.Models;
+using AzureAuthenticationApp.Models.Interfaces;
 using Microsoft.WindowsAzure.MobileServices;
 
 namespace AzureAuthenticationApp.Droid
@@ -32,8 +35,9 @@ namespace AzureAuthenticationApp.Droid
 			// Initialize Azure Mobile Apps
 			Microsoft.WindowsAzure.MobileServices.CurrentPlatform.Init();
 
-			// Initialize Xamarin Forms
-			global::Xamarin.Forms.Forms.Init (this, bundle);
+            // Initialize Xamarin Forms
+		    UserDialogs.Init(this);
+            global::Xamarin.Forms.Forms.Init (this, bundle);
 		    Xamarin.FormsMaps.Init(this, bundle);
             // Load the main application
             //App.Init(this.Authenticate() as IAuthenticate);
@@ -46,7 +50,7 @@ namespace AzureAuthenticationApp.Droid
 	        try
 	        {
 	            // Sign in with Facebook login using a server-managed flow.
-	            user = await TodoItemManager.DefaultManager.CurrentClient.LoginAsync(this,
+	            user = await TodoItemManager<DoItem>.DefaultManager.CurrentClient.LoginAsync(this,
 	                MobileServiceAuthenticationProvider.WindowsAzureActiveDirectory);
 	            if (user != null)
 	            {

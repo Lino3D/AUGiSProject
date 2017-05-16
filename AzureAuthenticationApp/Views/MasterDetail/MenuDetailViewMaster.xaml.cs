@@ -2,6 +2,7 @@
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using AzureAuthenticationApp.Models;
+using AzureAuthenticationApp.Models.UI;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 

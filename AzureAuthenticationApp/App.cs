@@ -10,7 +10,9 @@ namespace AzureAuthenticationApp
 		public App ()
 		{
 			// The root page of your application
-		    MainPage = new MenuDetailView();
+           // Container
+		  //  MainPage = new MenuDetailView();
+          MainPage = new MapView();
 		}
 
 		protected override void OnStart ()

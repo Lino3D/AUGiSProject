@@ -8,13 +8,13 @@ namespace AzureAuthenticationApp
 {
     public partial class TodoList : ContentPage
     {
-        TodoItemManager manager;
+        TodoItemManager<DoItem> manager;
 
         public TodoList()
         {
             InitializeComponent();
 
-            manager = TodoItemManager.DefaultManager;
+            manager = TodoItemManager<DoItem>.DefaultManager;
 
             // OnPlatform<T> doesn't currently support the "Windows" target platform, so we have this check here.
             if (manager.IsOfflineEnabled &&
@@ -39,22 +39,22 @@ namespace AzureAuthenticationApp
         }
 
         // Data methods
-        async Task AddItem(TodoItem item)
+        async Task AddItem(DoItem item)
         {
-            await manager.SaveTaskAsync(item);
-            todoList.ItemsSource = await manager.GetTodoItemsAsync();
+            await manager.SaveAsync(item);
+            todoList.ItemsSource = await manager.GetItemsAsync();
         }
 
-        async Task CompleteItem(TodoItem item)
+        async Task CompleteItem(DoItem item)
         {
             item.Done = true;
-            await manager.SaveTaskAsync(item);
-            todoList.ItemsSource = await manager.GetTodoItemsAsync();
+            await manager.SaveAsync(item);
+            todoList.ItemsSource = await manager.GetItemsAsync();
         }
 
         public async void OnAdd(object sender, EventArgs e)
         {
-            var todo = new TodoItem { Name = newItemName.Text };
+            var todo = new DoItem { Name = newItemName.Text };
             await AddItem(todo);
 
             newItemName.Text = string.Empty;
@@ -64,7 +64,7 @@ namespace AzureAuthenticationApp
         // Event handlers
         public async void OnSelected(object sender, SelectedItemChangedEventArgs e)
         {
-            var todo = e.SelectedItem as TodoItem;
+            var todo = e.SelectedItem as DoItem;
             if (Device.RuntimePlatform != Device.iOS && todo != null)
             {
                 // Not iOS - the swipe-to-delete is discoverable there
@@ -90,7 +90,7 @@ namespace AzureAuthenticationApp
         public async void OnComplete(object sender, EventArgs e)
         {
             var mi = ((MenuItem)sender);
-            var todo = mi.CommandParameter as TodoItem;
+            var todo = mi.CommandParameter as DoItem;
             await CompleteItem(todo);
         }
 
@@ -127,7 +127,7 @@ namespace AzureAuthenticationApp
         {
             using (var scope = new ActivityIndicatorScope(syncIndicator, showActivityIndicator))
             {
-                todoList.ItemsSource = await manager.GetTodoItemsAsync(syncItems);
+                todoList.ItemsSource = await manager.GetItemsAsync(syncItems);
             }
         }
 
