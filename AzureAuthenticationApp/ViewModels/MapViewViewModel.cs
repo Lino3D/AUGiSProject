@@ -13,17 +13,17 @@ namespace AzureAuthenticationApp.ViewModels
 {
     class MapViewViewModel : INotifyPropertyChanged
     {
-        TodoItemManager<PositionInfo> manager;
+      
         private int _floorNumber = 1;
         protected IUserDialogs Dialogs { get; }
         public ObservableCollection<int> FloorsList { get; }
-       
+        private TodoItemManager<PositionInfo> manager;
 
 
-        public MapViewViewModel(IUserDialogs dialogs)
+        public MapViewViewModel(IUserDialogs dialogs, TodoItemManager<PositionInfo> manager)
         {
             Dialogs = dialogs;
-            manager = TodoItemManager<PositionInfo>.DefaultManager;
+            this.manager = manager;
             FloorsList = new ObservableCollection<int>();
             for (var i = 0; i < 6; i++)
             {
