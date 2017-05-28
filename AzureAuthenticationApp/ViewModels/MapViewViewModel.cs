@@ -28,13 +28,17 @@ namespace AzureAuthenticationApp.ViewModels
                 OnPropertyChanged();
             }
         }
+
+        public BlobContainerManager BlobManager;
+
+
         //  private TodoItemManager<PositionInfo> manager;
 
 
         public MapViewViewModel(IUserDialogs dialogs /*, TodoItemManager<PositionInfo> manager*/)
         {
             InitializeConnectionHandlers();
-
+            BlobManager = new BlobContainerManager("Mainuser");
             Dialogs = dialogs;
             // this.manager = manager;
             FloorsList = new ObservableCollection<int>();
@@ -53,12 +57,19 @@ namespace AzureAuthenticationApp.ViewModels
             {
                 ConnectionHandler.Connected = CrossConnectivity.Current.IsConnected;
                 ConnectionHandler.CalculateStrenghts();
+                if (ConnectionHandler.WifiBssid != null && ConnectionHandler.Connected)
+                    BlobManager.UploadWifiData(ConnectionHandler.WifiStrenght, ConnectionHandler.WifiBssid);
+
+
+
             };
 
             CrossConnectivity.Current.ConnectivityTypeChanged += (sender, args) =>
             {
                 ConnectionHandler.CurrectConnectionTypes = CrossConnectivity.Current.ConnectionTypes.ToList();
                 ConnectionHandler.CalculateStrenghts();
+                if (ConnectionHandler.WifiBssid != null && ConnectionHandler.Connected)
+                    BlobManager.UploadWifiData(ConnectionHandler.WifiStrenght, ConnectionHandler.WifiBssid);
 
             };
             CrossWifiInfo.Current.SignalStrengthChanged += (sender, args) =>

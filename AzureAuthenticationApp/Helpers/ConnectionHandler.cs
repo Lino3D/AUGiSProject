@@ -46,7 +46,7 @@ namespace AzureAuthenticationApp.Helpers
                             break;
                         }
                     case ConnectionType.Cellular:
-                        CellularStrenght = connectionInfo.GetGsmSignalStrenght();
+                        // CellularStrenght = connectionInfo.GetGsmSignalStrenght();
                         break;
                 }
             }

@@ -37,6 +37,7 @@
     <Compile Include="Dependencies\IAuthenticate.cs" />
     <Compile Include="Dependencies\IBaseUrl.cs" />
     <Compile Include="Dependencies\IConnectionInfo.cs" />
+    <Compile Include="Helpers\BlobContainerManager.cs" />
     <Compile Include="Helpers\ConnectionHandler.cs" />
     <Compile Include="Helpers\EnumerableExtensions.cs" />
     <Compile Include="Models\AccessPoint.cs" />
