@@ -88,9 +88,8 @@ namespace AzureAuthenticationApp.ViewModels
 
         public void CheckWifi()
         {
-            var networkConnection = DependencyService.Get<IWifiInfoForms>();
-            networkConnection.CheckNetworkConnection();
-            WifiText = networkConnection.IsConnected ? "Connected" : "Not Connected";
+            var networkConnection = DependencyService.Get<IConnectionInfo>();
+            WifiText = networkConnection.CheckNetworkConnection() ? "Connected" : "Not Connected";
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

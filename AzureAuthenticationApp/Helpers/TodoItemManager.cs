@@ -13,6 +13,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
 using AzureAuthenticationApp.Models;
+using AzureAuthenticationApp.Models.Interfaces;
 using Microsoft.WindowsAzure.MobileServices;
 
 #if OFFLINE_SYNC_ENABLED
@@ -22,46 +23,40 @@ using Microsoft.WindowsAzure.MobileServices.Sync;
 
 namespace AzureAuthenticationApp.Helpers
 {
-    public partial class TodoItemManager
+    public partial class TodoItemManager<T> where T : IAzureItem
     {
-        static TodoItemManager defaultInstance = new TodoItemManager();
+        static TodoItemManager<T> defaultInstance = new TodoItemManager<T>();
         MobileServiceClient client;
 
 #if OFFLINE_SYNC_ENABLED
-        IMobileServiceSyncTable<TodoItem> todoTable;
+        IMobileServiceSyncTable<DoItem> todoTable;
 #else
-        IMobileServiceTable<TodoItem> todoTable;
+        IMobileServiceTable<T> todoTable;
 #endif
 
         const string offlineDbPath = @"localstore.db";
 
         private TodoItemManager()
         {
-            this.client = new MobileServiceClient(Constants.Constants.ApplicationURL);
+            this.client = new MobileServiceClient(Constants.AppConstants.ApplicationURL);
 
 #if OFFLINE_SYNC_ENABLED
             var store = new MobileServiceSQLiteStore(offlineDbPath);
-            store.DefineTable<TodoItem>();
+            store.DefineTable<DoItem>();
 
             //Initializes the SyncContext using the default IMobileServiceSyncHandler.
             this.client.SyncContext.InitializeAsync(store);
 
-            this.todoTable = client.GetSyncTable<TodoItem>();
+            this.todoTable = client.GetSyncTable<DoItem>();
 #else
-            this.todoTable = client.GetTable<TodoItem>();
+            this.todoTable = client.GetTable<T>();
 #endif
         }
 
-        public static TodoItemManager DefaultManager
+        public static TodoItemManager<T> DefaultManager
         {
-            get
-            {
-                return defaultInstance;
-            }
-            private set
-            {
-                defaultInstance = value;
-            }
+            get => defaultInstance;
+            private set => defaultInstance = value;
         }
 
         public MobileServiceClient CurrentClient
@@ -71,10 +66,10 @@ namespace AzureAuthenticationApp.Helpers
 
         public bool IsOfflineEnabled
         {
-            get { return todoTable is Microsoft.WindowsAzure.MobileServices.Sync.IMobileServiceSyncTable<TodoItem>; }
+            get { return todoTable is Microsoft.WindowsAzure.MobileServices.Sync.IMobileServiceSyncTable<T>; }
         }
 
-        public async Task<ObservableCollection<TodoItem>> GetTodoItemsAsync(bool syncItems = false)
+        public async Task<ObservableCollection<T>> GetItemsAsync(bool syncItems = false)
         {
             try
             {
@@ -84,11 +79,10 @@ namespace AzureAuthenticationApp.Helpers
                     await this.SyncAsync();
                 }
 #endif
-                IEnumerable<TodoItem> items = await todoTable
-                    .Where(todoItem => !todoItem.Done)
-                    .ToEnumerableAsync();
+                IEnumerable<T> items = await todoTable.ToListAsync();
 
-                return new ObservableCollection<TodoItem>(items);
+
+                return new ObservableCollection<T>(items);
             }
             catch (MobileServiceInvalidOperationException msioe)
             {
@@ -101,7 +95,7 @@ namespace AzureAuthenticationApp.Helpers
             return null;
         }
 
-        public async Task SaveTaskAsync(TodoItem item)
+        public async Task SaveAsync(T item)
         {
             if (item.Id == null)
             {

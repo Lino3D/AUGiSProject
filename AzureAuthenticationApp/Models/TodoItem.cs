@@ -1,9 +1,10 @@
-﻿using Microsoft.WindowsAzure.MobileServices;
+﻿using AzureAuthenticationApp.Models.Interfaces;
+using Microsoft.WindowsAzure.MobileServices;
 using Newtonsoft.Json;
 
 namespace AzureAuthenticationApp.Models
 {
-	public class TodoItem
+	public class TodoItem :IAzureItem
 	{
 		string id;
 		string name;

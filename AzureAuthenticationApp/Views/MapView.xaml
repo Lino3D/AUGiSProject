@@ -6,7 +6,9 @@
              xmlns:converters="clr-namespace:AzureAuthenticationApp.Converters;assembly=AzureAuthenticationApp"
              xmlns:ui="clr-namespace:AzureAuthenticationApp.Models.UI;assembly=AzureAuthenticationApp"
              x:Class="AzureAuthenticationApp.Views.MapView"
-             Title="MapView">
+             Title="MapView"
+             
+             >
     <ContentPage.Resources>
         <ResourceDictionary>
             <converters:FloorNumberToAddressConverter x:Key="FloorToUrl"></converters:FloorNumberToAddressConverter>

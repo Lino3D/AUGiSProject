@@ -2,7 +2,6 @@
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
 using AzureAuthenticationApp.Droid.Models;
-using AzureAuthenticationApp.Models;
 using AzureAuthenticationApp.Models.UI;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;

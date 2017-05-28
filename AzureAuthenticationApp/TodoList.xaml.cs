@@ -8,13 +8,13 @@ namespace AzureAuthenticationApp
 {
     public partial class TodoList : ContentPage
     {
-        TodoItemManager manager;
+        TodoItemManager<TodoItem> manager;
 
         public TodoList()
         {
             InitializeComponent();
 
-            manager = TodoItemManager.DefaultManager;
+            manager = TodoItemManager<TodoItem>.DefaultManager;
 
             // OnPlatform<T> doesn't currently support the "Windows" target platform, so we have this check here.
             if (manager.IsOfflineEnabled &&
@@ -41,15 +41,15 @@ namespace AzureAuthenticationApp
         // Data methods
         async Task AddItem(TodoItem item)
         {
-            await manager.SaveTaskAsync(item);
-            todoList.ItemsSource = await manager.GetTodoItemsAsync();
+            //await manager.SaveTaskAsync(item);
+            //todoList.ItemsSource = await manager.GetTodoItemsAsync();
         }
 
         async Task CompleteItem(TodoItem item)
         {
-            item.Done = true;
-            await manager.SaveTaskAsync(item);
-            todoList.ItemsSource = await manager.GetTodoItemsAsync();
+            //item.Done = true;
+            //await manager.SaveTaskAsync(item);
+            //todoList.ItemsSource = await manager.GetTodoItemsAsync();
         }
 
         public async void OnAdd(object sender, EventArgs e)
@@ -127,7 +127,7 @@ namespace AzureAuthenticationApp
         {
             using (var scope = new ActivityIndicatorScope(syncIndicator, showActivityIndicator))
             {
-                todoList.ItemsSource = await manager.GetTodoItemsAsync(syncItems);
+                //todoList.ItemsSource = await manager.GetTodoItemsAsync(syncItems);
             }
         }
 
