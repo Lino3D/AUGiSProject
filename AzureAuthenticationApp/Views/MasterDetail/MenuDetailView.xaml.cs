@@ -1,6 +1,5 @@
 ﻿using System;
 using AzureAuthenticationApp.Models;
-using AzureAuthenticationApp.Models.UI;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 

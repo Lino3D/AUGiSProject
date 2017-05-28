@@ -1,10 +1,9 @@
-﻿using AzureAuthenticationApp.Models.Interfaces;
-using Microsoft.WindowsAzure.MobileServices;
+﻿using Microsoft.WindowsAzure.MobileServices;
 using Newtonsoft.Json;
 
 namespace AzureAuthenticationApp.Models
 {
-	public class DoItem : IAzureItem
+	public class TodoItem
 	{
 		string id;
 		string name;
@@ -31,7 +30,8 @@ namespace AzureAuthenticationApp.Models
 			set { done = value;}
 		}
 
-	    public string Version { get; set; }
+        [Version]
+        public string Version { get; set; }
 	}
 }
 

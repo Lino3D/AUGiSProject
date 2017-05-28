@@ -1,7 +1,7 @@
 ﻿using System;
 using AzureAuthenticationApp.Views;
 
-namespace AzureAuthenticationApp.Models.UI
+namespace AzureAuthenticationApp.Models
 {
 
     public class MenuDetailViewMenuItem
