@@ -32,22 +32,18 @@ namespace AzureAuthenticationApp.ViewModels
         public BlobContainerManager BlobManager;
 
 
-        //  private TodoItemManager<PositionInfo> manager;
-
 
         public MapViewViewModel(IUserDialogs dialogs /*, TodoItemManager<PositionInfo> manager*/)
         {
             InitializeConnectionHandlers();
             BlobManager = new BlobContainerManager("Mainuser");
             Dialogs = dialogs;
-            // this.manager = manager;
             FloorsList = new ObservableCollection<int>();
             for (var i = 0; i < 6; i++)
             {
                 FloorsList.Add(i);
             }
             GetLocationCommand = new Command(GetLocation);
-            //var positionList = manager.GetItemsAsync();
         }
 
         private void InitializeConnectionHandlers()
@@ -56,26 +52,31 @@ namespace AzureAuthenticationApp.ViewModels
             CrossConnectivity.Current.ConnectivityChanged += (sender, args) =>
             {
                 ConnectionHandler.Connected = CrossConnectivity.Current.IsConnected;
-                ConnectionHandler.CalculateStrenghts();
-                if (ConnectionHandler.WifiBssid != null && ConnectionHandler.Connected)
-                    BlobManager.UploadWifiData(ConnectionHandler.WifiStrenght, ConnectionHandler.WifiBssid);
-
-
-
+                ConnectionHandler.CurrectConnectionTypes = CrossConnectivity.Current.ConnectionTypes.ToList();
+                //ConnectionHandler.CalculateStrenghts();
+                //if (ConnectionHandler.WifiBssid == null || !ConnectionHandler.Connected) return;
+                //var lol = await BlobManager.PerformPositionRequest(ConnectionHandler.WifiStrenght, ConnectionHandler.WifiBssid);
+                //if (!string.IsNullOrEmpty(lol?.ToString()))
+                //    Dialogs.Alert(lol.ToString());
             };
 
-            CrossConnectivity.Current.ConnectivityTypeChanged += (sender, args) =>
+            CrossConnectivity.Current.ConnectivityTypeChanged += async (sender, args) =>
             {
+                ConnectionHandler.Connected = CrossConnectivity.Current.IsConnected;
                 ConnectionHandler.CurrectConnectionTypes = CrossConnectivity.Current.ConnectionTypes.ToList();
                 ConnectionHandler.CalculateStrenghts();
-                if (ConnectionHandler.WifiBssid != null && ConnectionHandler.Connected)
-                    BlobManager.UploadWifiData(ConnectionHandler.WifiStrenght, ConnectionHandler.WifiBssid);
-
+                if (ConnectionHandler.WifiBssid == null || !ConnectionHandler.Connected) return;
+                var lol = await BlobManager.PerformPositionRequest(ConnectionHandler.WifiStrenght, ConnectionHandler.WifiBssid);
+                if (!string.IsNullOrEmpty(lol?.ToString()))
+                    Dialogs.Alert(lol.ToString());
             };
-            CrossWifiInfo.Current.SignalStrengthChanged += (sender, args) =>
+            CrossWifiInfo.Current.SignalStrengthChanged += async (sender, args) =>
             {
                 ConnectionHandler.CalculateStrenghts();
-
+                if (ConnectionHandler.WifiBssid == null || !ConnectionHandler.Connected) return;
+                var lol = await BlobManager.PerformPositionRequest(ConnectionHandler.WifiStrenght, ConnectionHandler.WifiBssid);
+                if (!string.IsNullOrEmpty(lol?.ToString()))
+                    Dialogs.Alert(lol.ToString());
             };
         }
 

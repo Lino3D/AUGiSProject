@@ -6,10 +6,10 @@
         public const string ApplicationURL = @"https://azureauthenticationapp.azurewebsites.net";
 
         public const string StorageConnection =
-                @""
-            ;
+                @"DefaultEndpointsProtocol=https;AccountName=gisappfiles;AccountKey=";
 
         public const string Gismaincontainer = "gismaincontainer";
+        public const string Gismycontainer = "mycontainer";
 
 
     }

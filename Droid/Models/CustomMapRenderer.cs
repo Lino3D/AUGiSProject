@@ -1,5 +1,4 @@
-﻿using System;
-using Android.Gms.Maps;
+﻿using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
 using AzureAuthenticationApp.Droid.Models;
 using AzureAuthenticationApp.Models.UI;
@@ -24,16 +23,14 @@ namespace AzureAuthenticationApp.Droid.Models
         {
             base.OnElementChanged(e);
 
-            if (e.OldElement == null)
-            {
-                map = Control as MapView;
-                customMap = e.NewElement as CustomMap;
+            if (e.OldElement != null) return;
+            map = Control;
+            customMap = e.NewElement as CustomMap;
 
-                var tileProvider = new CustomTileProvider(512, 512, customMap.MapTileTemplate);
-                var options = new TileOverlayOptions().InvokeTileProvider(tileProvider);
+            var tileProvider = new CustomTileProvider(512, 512, customMap.MapTileTemplate);
+            var options = new TileOverlayOptions().InvokeTileProvider(tileProvider);
 
-                map.Map.AddTileOverlay(options);
-            }
+            map.Map.AddTileOverlay(options);
         }
 
         protected override void OnElementPropertyChanged(object sender,
@@ -51,11 +48,11 @@ namespace AzureAuthenticationApp.Droid.Models
         }
         private void UpdateTile()
         {
-
+            map.Map.Clear();
             var tileProvider = new CustomTileProvider(512, 512, customMap.MapTileTemplate);
             var options = new TileOverlayOptions().InvokeTileProvider(tileProvider);
-
             map.Map.AddTileOverlay(options);
+
         }
     }
 }
