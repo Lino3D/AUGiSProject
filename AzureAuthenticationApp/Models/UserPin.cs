@@ -2,7 +2,7 @@ using AzureAuthenticationApp.Models.Interfaces;
 
 namespace AzureAuthenticationApp.Models
 {
-    public class Monkey : IMapModel
+    public class UserPin : IMapModel
     {
         public string Name { get; set; }
         public string Details { get; set; }

@@ -58,8 +58,9 @@ namespace AzureAuthenticationApp.Models.UI
 
         public CustomMap()
         {
-            throw new NotImplementedException();
+            //  throw new NotImplementedException();
         }
+
 
         public MapSpan LastMoveToRegion { get; private set; }
 

@@ -1,6 +1,7 @@
 ﻿using AzureAuthenticationApp.Constants;
 using Microsoft.WindowsAzure.Storage;
 using Microsoft.WindowsAzure.Storage.Blob;
+using Microsoft.WindowsAzure.Storage.Queue;
 using Microsoft.WindowsAzure.Storage.RetryPolicies;
 using System;
 using System.Text;
@@ -12,18 +13,25 @@ namespace AzureAuthenticationApp.Helpers
     {
         public CloudStorageAccount StorageAccount { get; }
         public CloudBlobClient BlobClient;
+        public CloudQueueClient QueueClient;
         private CloudBlobContainer _uploadContainer;
         private CloudBlobContainer _downloadContainer;
+        private CloudQueue UploadQueue;
         private string userName;
 
         public BlobContainerManager(string userName)
         {
             StorageAccount = CloudStorageAccount.Parse(AppConstants.StorageConnection);
             BlobClient = StorageAccount.CreateCloudBlobClient();
-
+            QueueClient = StorageAccount.CreateCloudQueueClient();
             this.userName = userName;
             _uploadContainer = BlobClient.GetContainerReference(AppConstants.Gismaincontainer);
             _downloadContainer = BlobClient.GetContainerReference(AppConstants.Gismycontainer);
+            UploadQueue = QueueClient.GetQueueReference("MessageQueue");
+            UploadQueue.CreateIfNotExistsAsync();
+            var message = new CloudQueueMessage("Hello, World");
+            UploadQueue.AddMessageAsync(message);
+
         }
 
         public async Task UploadWifiData(int strength, string bssid, string seconds)

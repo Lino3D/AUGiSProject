@@ -20,7 +20,7 @@
             <ui:CustomMap x:Name="MyMap"   WidthRequest="320" HeightRequest="200"
                               MapTileTemplate="{Binding FloorNumber, Converter= {StaticResource FloorToUrl}}" Test="MyMap"/>
             <Picker x:Name="FloorPicker"  ItemsSource="{Binding FloorsList}"  SelectedItem="{Binding FloorNumber}" ></Picker>
-            <Button Text="Locate me!" x:Name="LocationButton" Clicked="LocationButton_OnClicked"></Button>
+            <Button Text="Locate me!" x:Name="LocationButton" Command="{Binding GetLocationCommand}"></Button>
         </StackLayout>
        
     </ScrollView>

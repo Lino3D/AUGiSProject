@@ -1,5 +1,4 @@
 ﻿using AzureAuthenticationApp.Dependencies;
-using AzureAuthenticationApp.Views.MasterDetail;
 using Xamarin.Forms;
 namespace AzureAuthenticationApp
 {
@@ -8,7 +7,8 @@ namespace AzureAuthenticationApp
         public App()
         {
             // The root page of your application
-            MainPage = new MenuDetailView();
+            // MainPage = new MenuDetailView();
+            MainPage = new Views.MapView();
         }
 
         protected override void OnStart()

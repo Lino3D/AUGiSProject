@@ -11,7 +11,7 @@
 	<uses-permission android:name="android.permission.CHANGE_WIFI_MULTICAST_STATE" />
 	<uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
-	<application android:label="AzureAuthenticationApp" android:icon="@drawable/icon">
-		<meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="XD" />
+	<application android:label="Mini Map" android:icon="@drawable/icon">
+		<meta-data android:name="com.google.android.maps.v2.API_KEY" android:value="AIzaSyCPNKeuHKPOfhB0_LRxgTMMHBJ1kiz-jOU" />
 	</application>
 </manifest>

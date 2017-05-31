@@ -1,7 +1,7 @@
-﻿using System.Collections.ObjectModel;
+﻿using AzureAuthenticationApp.Models;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using AzureAuthenticationApp.Models;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -25,7 +25,7 @@ namespace AzureAuthenticationApp.Views.MasterDetail
             {
                 MenuItems = new ObservableCollection<MenuDetailViewMenuItem>(new[]
                 {
-                    new MenuDetailViewMenuItem { Id = 0, Title = "Mapa", TargetType = typeof(MapView) },
+                    new MenuDetailViewMenuItem { Id = 0, Title = "Mapa", TargetType = typeof(Views.MapView) },
                     new MenuDetailViewMenuItem { Id = 1, Title = "Menu", TargetType = typeof(MainPage)},
                 });
             }

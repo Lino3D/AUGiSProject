@@ -3067,11 +3067,11 @@ namespace AzureAuthenticationApp.Droid
 			// aapt resource value: 0x7f020135
 			public const int notification_icon_background = 2130837813;
 			
-			// aapt resource value: 0x7f02013a
-			public const int notification_template_icon_bg = 2130837818;
-			
 			// aapt resource value: 0x7f02013b
-			public const int notification_template_icon_low_bg = 2130837819;
+			public const int notification_template_icon_bg = 2130837819;
+			
+			// aapt resource value: 0x7f02013c
+			public const int notification_template_icon_low_bg = 2130837820;
 			
 			// aapt resource value: 0x7f020136
 			public const int notification_tile_bg = 2130837814;
@@ -3084,6 +3084,9 @@ namespace AzureAuthenticationApp.Droid
 			
 			// aapt resource value: 0x7f020139
 			public const int roundedbgdark = 2130837817;
+			
+			// aapt resource value: 0x7f02013a
+			public const int student = 2130837818;
 			
 			static Drawable()
 			{

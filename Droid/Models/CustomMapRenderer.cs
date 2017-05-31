@@ -10,6 +10,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms.Maps.Android;
 using Xamarin.Forms.Platform.Android;
+#pragma warning disable 618
 
 [assembly: ExportRenderer(typeof(CustomMap), typeof(CustomMapRenderer))]
 
@@ -18,7 +19,7 @@ namespace AzureAuthenticationApp.Droid.Models
     public class CustomMapRenderer
         : MapRenderer
     {
-        private MapView map;
+        private MapView mapView;
 
         //private CustomTileProvider tileProvider;
         private CustomMap customMap;
@@ -30,13 +31,23 @@ namespace AzureAuthenticationApp.Droid.Models
             base.OnElementChanged(e);
 
             if (e.OldElement != null) return;
-            map = Control;
+            mapView = Control;
             customMap = e.NewElement as CustomMap;
 
-            var tileProvider = new CustomTileProvider(512, 512, customMap.MapTileTemplate);
-            var options = new TileOverlayOptions().InvokeTileProvider(tileProvider);
+            if (customMap != null)
+            {
+                var tileProvider = new CustomTileProvider(512, 512, customMap.MapTileTemplate);
+                var options = new TileOverlayOptions().InvokeTileProvider(tileProvider);
 
-            map.Map.AddTileOverlay(options);
+                mapView.Map.AddTileOverlay(options);
+            }
+
+            if (mapView?.Map != null)
+            {
+                mapView.Map.InfoWindowClick += MapOnInfoWindowClick;
+            }
+
+
             if (customMap != null)
             {
                 ((ObservableCollection<Pin>)customMap.Pins).CollectionChanged += OnCollectionChanged;
@@ -82,7 +93,7 @@ namespace AzureAuthenticationApp.Droid.Models
 
         private int GetPinIcon()
         {
-            return Resource.Drawable.icon;
+            return Resource.Drawable.student;
 
         }
 
@@ -109,14 +120,17 @@ namespace AzureAuthenticationApp.Droid.Models
             {
                 UpdateTile();
             }
+            if (!e.PropertyName.Equals("VisibleRegion") || _isDrawnDone) return;
+            UpdatePins();
 
+            _isDrawnDone = true;
         }
         private void UpdateTile()
         {
-            map.Map.Clear();
+            mapView.Map.Clear();
             var tileProvider = new CustomTileProvider(512, 512, customMap.MapTileTemplate);
             var options = new TileOverlayOptions().InvokeTileProvider(tileProvider);
-            map.Map.AddTileOverlay(options);
+            mapView.Map.AddTileOverlay(options);
 
         }
         private void MapOnInfoWindowClick(object sender, GoogleMap.InfoWindowClickEventArgs e)
