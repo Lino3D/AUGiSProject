@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 
 namespace AzureAuthenticationApp.Helpers
 {
-    public class BlobContainerManager
+    public class AzureContainerManager
     {
         public CloudStorageAccount StorageAccount { get; }
         public CloudBlobClient BlobClient;
@@ -17,9 +17,10 @@ namespace AzureAuthenticationApp.Helpers
         private CloudBlobContainer _uploadContainer;
         private CloudBlobContainer _downloadContainer;
         private CloudQueue UploadQueue;
+        private CloudQueue DownloadQueue;
         private string userName;
 
-        public BlobContainerManager(string userName)
+        public AzureContainerManager(string userName)
         {
             StorageAccount = CloudStorageAccount.Parse(AppConstants.StorageConnection);
             BlobClient = StorageAccount.CreateCloudBlobClient();
@@ -27,10 +28,8 @@ namespace AzureAuthenticationApp.Helpers
             this.userName = userName;
             _uploadContainer = BlobClient.GetContainerReference(AppConstants.Gismaincontainer);
             _downloadContainer = BlobClient.GetContainerReference(AppConstants.Gismycontainer);
-            UploadQueue = QueueClient.GetQueueReference("MessageQueue");
-            UploadQueue.CreateIfNotExistsAsync();
-            var message = new CloudQueueMessage("Hello, World");
-            UploadQueue.AddMessageAsync(message);
+            UploadQueue = QueueClient.GetQueueReference("messagequeue" + userName.ToLower());
+
 
         }
 
@@ -44,6 +43,37 @@ namespace AzureAuthenticationApp.Helpers
             await blockBlob.UploadTextAsync(strength + ";" + bssid);
 
         }
+
+        public async Task UploadWifiDataQueue(int strength, string bssid)
+        {
+            await UploadQueue.CreateIfNotExistsAsync();
+            var message = new CloudQueueMessage(bssid);
+            await UploadQueue.AddMessageAsync(message);
+        }
+
+        public async Task<string> PerformRequestQueue(int strength, string bssid)
+        {
+            await UploadWifiDataQueue(strength, bssid);
+            var options = new QueueRequestOptions()
+            {
+                RetryPolicy = new LinearRetry(TimeSpan.FromMilliseconds(1000), 3),
+                MaximumExecutionTime = TimeSpan.FromSeconds(2)
+            };
+            try
+            {
+                await Task.Delay(1000);
+                var peekedMessage = await UploadQueue.PeekMessageAsync(options, null);
+                return peekedMessage?.AsString;
+            }
+            catch (StorageException)
+            {
+                return null;
+            }
+        }
+
+
+
+
 
         public async Task<string> DownloadPositionData(string seconds)
         {
@@ -71,7 +101,7 @@ namespace AzureAuthenticationApp.Helpers
             {
                 return await DownloadPositionData(seconds);
             }
-            catch (StorageException e)
+            catch (StorageException)
             {
                 return null;
             }

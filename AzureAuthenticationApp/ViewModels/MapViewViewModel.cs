@@ -35,7 +35,7 @@ namespace AzureAuthenticationApp.ViewModels
         }
         private ObservableCollection<IMapModel> _usersPins = new ObservableCollection<IMapModel>();
 
-        public BlobContainerManager BlobManager;
+        public AzureContainerManager AzureStorageManager;
         private IGeolocator _mainGeolocator;
         private UserPin myPin;
 
@@ -48,7 +48,7 @@ namespace AzureAuthenticationApp.ViewModels
             };
             ;
             InitializeConnectionHandlers();
-            BlobManager = new BlobContainerManager("Mainuser");
+            AzureStorageManager = new AzureContainerManager("Mainuser");
             Dialogs = dialogs;
             FloorsList = new ObservableCollection<int>();
             for (var i = 0; i < 6; i++)
@@ -78,7 +78,7 @@ namespace AzureAuthenticationApp.ViewModels
                 ConnectionHandler.CurrectConnectionTypes = CrossConnectivity.Current.ConnectionTypes.ToList();
                 ConnectionHandler.CalculateStrenghts();
                 if (ConnectionHandler.WifiBssid == null || !ConnectionHandler.Connected) return;
-                var lol = await BlobManager.PerformPositionRequest(ConnectionHandler.WifiStrenght, ConnectionHandler.WifiBssid);
+                var lol = await AzureStorageManager.PerformPositionRequest(ConnectionHandler.WifiStrenght, ConnectionHandler.WifiBssid);
                 if (!string.IsNullOrEmpty(lol?.ToString()))
                     GetLocation(lol.ToString());
             };
@@ -86,7 +86,7 @@ namespace AzureAuthenticationApp.ViewModels
             {
                 ConnectionHandler.CalculateStrenghts();
                 if (ConnectionHandler.WifiBssid == null || !ConnectionHandler.Connected) return;
-                var lol = await BlobManager.PerformPositionRequest(ConnectionHandler.WifiStrenght, ConnectionHandler.WifiBssid);
+                var lol = await AzureStorageManager.PerformPositionRequest(ConnectionHandler.WifiStrenght, ConnectionHandler.WifiBssid);
                 if (!string.IsNullOrEmpty(lol?.ToString()))
                     GetLocation(lol.ToString());
             };
@@ -118,7 +118,7 @@ namespace AzureAuthenticationApp.ViewModels
             }
             catch (Exception ex)
             {
-                Dialogs.Alert("Unable to get location, may need to increase timeout: " + ex);
+                Dialogs.Alert("Unable to get location, may need to increase timeout: " + ex.Message);
             }
             if (position == null) return;
             myPin.Location = new Location { Latitude = position.Latitude, Longitude = position.Longitude };
@@ -142,7 +142,7 @@ namespace AzureAuthenticationApp.ViewModels
             ConnectionHandler.CurrectConnectionTypes = CrossConnectivity.Current.ConnectionTypes.ToList();
             ConnectionHandler.CalculateStrenghts();
             if (ConnectionHandler.WifiBssid == null || !ConnectionHandler.Connected) return;
-            var lol = await BlobManager.PerformPositionRequest(ConnectionHandler.WifiStrenght, ConnectionHandler.WifiBssid);
+            var lol = await AzureStorageManager.PerformRequestQueue(ConnectionHandler.WifiStrenght, ConnectionHandler.WifiBssid);
             if (!string.IsNullOrEmpty(lol))
                 GetLocation(lol);
         }

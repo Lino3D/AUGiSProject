@@ -13,7 +13,7 @@ namespace AzureAuthenticationApp.Droid
 
 
 
-    [Activity(Label = "AzureAuthenticationApp.Droid",
+    [Activity(Label = "Mini Mapa",
         Icon = "@drawable/icon",
         MainLauncher = true,
         ConfigurationChanges = ConfigChanges.ScreenSize | ConfigChanges.Orientation,
