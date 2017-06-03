@@ -1,4 +1,5 @@
 ﻿using Acr.UserDialogs;
+using AzureAuthenticationApp.Dependencies;
 using AzureAuthenticationApp.Helpers;
 using AzureAuthenticationApp.Models;
 using AzureAuthenticationApp.Models.Interfaces;
@@ -74,21 +75,21 @@ namespace AzureAuthenticationApp.ViewModels
 
             CrossConnectivity.Current.ConnectivityTypeChanged += async (sender, args) =>
             {
-                ConnectionHandler.Connected = CrossConnectivity.Current.IsConnected;
-                ConnectionHandler.CurrectConnectionTypes = CrossConnectivity.Current.ConnectionTypes.ToList();
-                ConnectionHandler.CalculateStrenghts();
-                if (ConnectionHandler.WifiBssid == null || !ConnectionHandler.Connected) return;
-                var lol = await AzureStorageManager.PerformPositionRequest(ConnectionHandler.WifiStrenght, ConnectionHandler.WifiBssid);
-                if (!string.IsNullOrEmpty(lol?.ToString()))
-                    GetLocation(lol.ToString());
+                //ConnectionHandler.Connected = CrossConnectivity.Current.IsConnected;
+                //ConnectionHandler.CurrectConnectionTypes = CrossConnectivity.Current.ConnectionTypes.ToList();
+                //ConnectionHandler.CalculateStrenghts();
+                //if (ConnectionHandler.WifiBssid == null || !ConnectionHandler.Connected) return;
+                //var response = await AzureStorageManager.PerformRequestQueue(ConnectionHandler.WifiStrenght, ConnectionHandler.WifiBssid);
+                //if (!string.IsNullOrEmpty(response?.ToString()))
+                //    GetLocation(response.ToString());
             };
             CrossWifiInfo.Current.SignalStrengthChanged += async (sender, args) =>
             {
-                ConnectionHandler.CalculateStrenghts();
-                if (ConnectionHandler.WifiBssid == null || !ConnectionHandler.Connected) return;
-                var lol = await AzureStorageManager.PerformPositionRequest(ConnectionHandler.WifiStrenght, ConnectionHandler.WifiBssid);
-                if (!string.IsNullOrEmpty(lol?.ToString()))
-                    GetLocation(lol.ToString());
+                //ConnectionHandler.CalculateStrenghts();
+                //if (ConnectionHandler.WifiBssid == null || !ConnectionHandler.Connected) return;
+                //var response = await AzureStorageManager.PerformRequestQueue(ConnectionHandler.WifiStrenght, ConnectionHandler.WifiBssid);
+                //if (!string.IsNullOrEmpty(response?.ToString()))
+                //    GetLocation(response.ToString());
             };
         }
 
@@ -116,9 +117,10 @@ namespace AzureAuthenticationApp.ViewModels
                 _mainGeolocator.DesiredAccuracy = 5;
                 position = await _mainGeolocator.GetPositionAsync(5000);
             }
-            catch (Exception ex)
+            catch (Exception)
             {
-                Dialogs.Alert("Unable to get location, may need to increase timeout: " + ex.Message);
+                Dialogs.Alert("Unable to get location, try again ");
+
             }
             if (position == null) return;
             myPin.Location = new Location { Latitude = position.Latitude, Longitude = position.Longitude };
@@ -138,13 +140,26 @@ namespace AzureAuthenticationApp.ViewModels
 
         private async void ManualLocation()
         {
-            ConnectionHandler.Connected = CrossConnectivity.Current.IsConnected;
-            ConnectionHandler.CurrectConnectionTypes = CrossConnectivity.Current.ConnectionTypes.ToList();
-            ConnectionHandler.CalculateStrenghts();
-            if (ConnectionHandler.WifiBssid == null || !ConnectionHandler.Connected) return;
-            var lol = await AzureStorageManager.PerformRequestQueue(ConnectionHandler.WifiStrenght, ConnectionHandler.WifiBssid);
-            if (!string.IsNullOrEmpty(lol))
-                GetLocation(lol);
+            var results = CrossWifiInfo.Current.ScanResults;
+
+            foreach (var result in results)
+            {
+                Dialogs.Alert(result.Ssid + result.Level);
+            }
+            var customresults = DependencyService.Get<IConnectionInfo>().ReturnScanResults();
+            foreach (var customScanData in customresults)
+            {
+                Dialogs.Alert(customScanData.Bssid + customScanData.Bssid);
+            }
+            var bs = CrossConnectivity.Current.Bandwidths;
+
+            //ConnectionHandler.Connected = CrossConnectivity.Current.IsConnected;
+            //ConnectionHandler.CurrectConnectionTypes = CrossConnectivity.Current.ConnectionTypes.ToList();
+            //ConnectionHandler.CalculateStrenghts();
+            //if (ConnectionHandler.WifiBssid == null || !ConnectionHandler.Connected) return;
+            //var lol = await AzureStorageManager.PerformRequestQueue(ConnectionHandler.WifiStrenght, ConnectionHandler.WifiBssid);
+            //if (!string.IsNullOrEmpty(lol))
+            //    GetLocation(lol);
         }
 
 
@@ -163,7 +178,8 @@ namespace AzureAuthenticationApp.ViewModels
 
 
         public event PropertyChangedEventHandler PropertyChanged;
-        void OnPropertyChanged([CallerMemberName]string propertyName = "") =>
+
+        public void OnPropertyChanged([CallerMemberName]string propertyName = "") =>
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
 
     }

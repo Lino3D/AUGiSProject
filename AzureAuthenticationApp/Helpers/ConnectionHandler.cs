@@ -1,8 +1,8 @@
 ﻿using AzureAuthenticationApp.Dependencies;
 using AzureAuthenticationApp.Models;
 using Plugin.Connectivity.Abstractions;
-using Plugin.WifiInfo;
 using System.Collections.Generic;
+using Plugin.WifiInfo;
 using Xamarin.Forms;
 
 namespace AzureAuthenticationApp.Helpers
@@ -36,18 +36,15 @@ namespace AzureAuthenticationApp.Helpers
             foreach (var currectConnectionType in CurrectConnectionTypes)
             {
                 //dostuff
-                switch (currectConnectionType)
+                if (currectConnectionType == ConnectionType.WiFi)
                 {
-                    case ConnectionType.WiFi:
-                        {
-                            if (!Connected) return;
-                            WifiStrenght = connectionInfo.GetWifiSignalStrength();
-                            WifiBssid = CrossWifiInfo.Current.ConnectedWifiInformation.Bssid;
-                            break;
-                        }
-                    case ConnectionType.Cellular:
-                        // CellularStrenght = connectionInfo.GetGsmSignalStrenght();
-                        break;
+                    if (!Connected) return;
+                    WifiStrenght = connectionInfo.GetWifiSignalStrength();
+                    WifiBssid = CrossWifiInfo.Current.ConnectedWifiInformation.Bssid;
+                }
+                else if (currectConnectionType == ConnectionType.Cellular)
+                {
+                    // CellularStrenght = connectionInfo.GetGsmSignalStrenght();
                 }
             }
         }
