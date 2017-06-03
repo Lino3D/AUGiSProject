@@ -29,9 +29,50 @@ namespace AzureAuthenticationApp.Helpers
             _uploadContainer = BlobClient.GetContainerReference(AppConstants.Gismaincontainer);
             _downloadContainer = BlobClient.GetContainerReference(AppConstants.Gismycontainer);
             UploadQueue = QueueClient.GetQueueReference("messagequeue" + userName.ToLower());
+            DownloadQueue = QueueClient.GetQueueReference("responsequeue" + userName.ToLower());
 
 
         }
+
+
+
+        public async Task UploadWifiDataQueue(string data)
+        {
+            await UploadQueue.CreateIfNotExistsAsync();
+            var message = new CloudQueueMessage(data);
+            await UploadQueue.AddMessageAsync(message);
+        }
+
+        public async Task<string> PerformRequestQueue(string data)
+        {
+            await UploadWifiDataQueue(data);
+            var options = new QueueRequestOptions()
+            {
+                RetryPolicy = new LinearRetry(TimeSpan.FromMilliseconds(1000), 3),
+                MaximumExecutionTime = TimeSpan.FromSeconds(2)
+            };
+            try
+            {
+                await DownloadQueue.CreateIfNotExistsAsync();
+                CloudQueueMessage peekedMessage = null;
+                for (var i = 0; i < 3; i++)
+                {
+                    peekedMessage = await DownloadQueue.PeekMessageAsync(options, null);
+                    if (peekedMessage != null)
+                        break;
+                    await Task.Delay(2000);
+
+                }
+
+                return peekedMessage?.AsString;
+            }
+            catch (StorageException)
+            {
+                return null;
+            }
+        }
+
+
 
         public async Task UploadWifiData(int strength, string bssid, string seconds)
         {
@@ -43,35 +84,6 @@ namespace AzureAuthenticationApp.Helpers
             await blockBlob.UploadTextAsync(strength + ";" + bssid);
 
         }
-
-        public async Task UploadWifiDataQueue(int strength, string bssid)
-        {
-            await UploadQueue.CreateIfNotExistsAsync();
-            var message = new CloudQueueMessage(bssid);
-            await UploadQueue.AddMessageAsync(message);
-        }
-
-        public async Task<string> PerformRequestQueue(int strength, string bssid)
-        {
-            await UploadWifiDataQueue(strength, bssid);
-            var options = new QueueRequestOptions()
-            {
-                RetryPolicy = new LinearRetry(TimeSpan.FromMilliseconds(1000), 3),
-                MaximumExecutionTime = TimeSpan.FromSeconds(2)
-            };
-            try
-            {
-                await Task.Delay(1000);
-                var peekedMessage = await UploadQueue.PeekMessageAsync(options, null);
-                return peekedMessage?.AsString;
-            }
-            catch (StorageException)
-            {
-                return null;
-            }
-        }
-
-
 
 
 

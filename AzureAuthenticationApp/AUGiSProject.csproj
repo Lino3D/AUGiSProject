@@ -42,7 +42,7 @@
     <Compile Include="Helpers\ConnectionHandler.cs" />
     <Compile Include="Helpers\EnumerableExtensions.cs" />
     <Compile Include="Models\AccessPoint.cs" />
-    <Compile Include="Models\CustomScanData.cs" />
+    <Compile Include="Models\WifiScanData.cs" />
     <Compile Include="Models\Interfaces\IAzureItem.cs" />
     <Compile Include="Models\Interfaces\ILocation.cs" />
     <Compile Include="Models\Interfaces\IMapModel.cs" />

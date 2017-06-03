@@ -1,8 +1,9 @@
 ﻿using AzureAuthenticationApp.Dependencies;
 using AzureAuthenticationApp.Models;
 using Plugin.Connectivity.Abstractions;
-using System.Collections.Generic;
 using Plugin.WifiInfo;
+using System.Collections.Generic;
+using System.Text;
 using Xamarin.Forms;
 
 namespace AzureAuthenticationApp.Helpers
@@ -12,23 +13,20 @@ namespace AzureAuthenticationApp.Helpers
 
         public bool Connected { get; set; }
         public List<ConnectionType> CurrectConnectionTypes { get; set; }
-        public RoomLocator Locator { get; set; }
         public IConnectionInfo ConnectionInfo { get; set; }
-
-        public string WifiBssid { get; set; }
-        public int WifiStrenght { get; set; }
-        public int CellularStrenght { get; set; }
-        private IConnectionInfo connectionInfo;
-
+        private IConnectionInfo _connectionInfo;
+        private List<WifiScanData> ScanData { get; }
 
 
         public ConnectionHandler()
         {
+
             Connected = false;
             CurrectConnectionTypes = new List<ConnectionType>();
-            Locator = new RoomLocator();
-            connectionInfo = DependencyService.Get<IConnectionInfo>();
-            connectionInfo.LaunchListener();
+            _connectionInfo = DependencyService.Get<IConnectionInfo>();
+            DependencyService.Get<IConnectionInfo>().CheckWifiConnection();
+            ScanData = new List<WifiScanData>();
+            CalculateStrenghts();
         }
         public void CalculateStrenghts()
         {
@@ -38,16 +36,35 @@ namespace AzureAuthenticationApp.Helpers
                 //dostuff
                 if (currectConnectionType == ConnectionType.WiFi)
                 {
-                    if (!Connected) return;
-                    WifiStrenght = connectionInfo.GetWifiSignalStrength();
-                    WifiBssid = CrossWifiInfo.Current.ConnectedWifiInformation.Bssid;
-                }
-                else if (currectConnectionType == ConnectionType.Cellular)
-                {
-                    // CellularStrenght = connectionInfo.GetGsmSignalStrenght();
+                    var results = CrossWifiInfo.Current.ScanResults;
+                    foreach (var result in results)
+                    {
+                        ScanData.Add(new WifiScanData()
+                        {
+                            Bssid = result.Bssid,
+                            Rssi = result.Level
+                        });
+                    }
                 }
             }
         }
+
+        public List<WifiScanData> GetScanResults()
+        {
+            return ScanData.Count > 0 ? ScanData : null;
+        }
+
+        public string GetScanResultString()
+        {
+            StringBuilder results = new StringBuilder();
+            foreach (var data in ScanData)
+            {
+                results.Append(data.ToStringNoColons());
+                results.Append("; ");
+            }
+            return results.ToString();
+        }
+
 
 
     }

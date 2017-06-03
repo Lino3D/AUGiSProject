@@ -1,4 +1,5 @@
 ﻿using Acr.UserDialogs;
+using Android;
 using Android.App;
 using Android.Content.PM;
 using Android.OS;
@@ -21,6 +22,13 @@ namespace AzureAuthenticationApp.Droid
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsApplicationActivity
     {
         private MobileServiceUser user;
+        readonly string[] PermissionsLocation =
+        {
+            Manifest.Permission.AccessCoarseLocation,
+            Manifest.Permission.AccessFineLocation
+        };
+
+        const int RequestLocationId = 0;
 
         protected override void OnCreate(Bundle bundle)
         {
@@ -33,11 +41,15 @@ namespace AzureAuthenticationApp.Droid
             global::Xamarin.Forms.Forms.Init(this, bundle);
             Xamarin.FormsMaps.Init(this, bundle);
             UserDialogs.Init(this);
+
+            const string permission = Manifest.Permission.AccessFineLocation;
+            if (CheckSelfPermission(permission) != (int)Permission.Granted)
+            {
+                RequestPermissions(PermissionsLocation, RequestLocationId);
+            }
+
             // Load the main application
             //App.Init(this.Authenticate() as IAuthenticate);
-
-
-
             LoadApplication(new App());
         }
         public async Task<bool> Authenticate()
@@ -69,6 +81,10 @@ namespace AzureAuthenticationApp.Droid
 
             return success;
         }
+
+
     }
+
+
 }
 
