@@ -46,25 +46,23 @@ namespace AzureAuthenticationApp.Helpers
         public async Task<string> PerformRequestQueue(string data)
         {
             await UploadWifiDataQueue(data);
-            var options = new QueueRequestOptions()
-            {
-                RetryPolicy = new LinearRetry(TimeSpan.FromMilliseconds(1000), 3),
-                MaximumExecutionTime = TimeSpan.FromSeconds(2)
-            };
             try
             {
                 await DownloadQueue.CreateIfNotExistsAsync();
-                CloudQueueMessage peekedMessage = null;
+                CloudQueueMessage message = null;
                 for (var i = 0; i < 3; i++)
                 {
-                    peekedMessage = await DownloadQueue.PeekMessageAsync(options, null);
-                    if (peekedMessage != null)
+                    message = await DownloadQueue.GetMessageAsync();
+                    if (message != null)
+                    {
+                        await DownloadQueue.DeleteMessageAsync(message);
                         break;
+                    }
                     await Task.Delay(2000);
 
                 }
 
-                return peekedMessage?.AsString;
+                return message?.AsString;
             }
             catch (StorageException)
             {

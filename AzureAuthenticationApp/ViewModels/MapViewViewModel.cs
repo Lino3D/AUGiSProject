@@ -150,11 +150,11 @@ namespace AzureAuthenticationApp.ViewModels
 
             #region TestingCode
 
-            //var results = CrossWifiInfo.Current.ScanResults;
-            //foreach (var result in results)
-            //{
-            //    Dialogs.Alert(result.Bssid + result.Level);
-            //}
+            ////var results = CrossWifiInfo.Current.ScanResults;
+            ////foreach (var result in results)
+            ////{
+            ////    Dialogs.Alert(result.Bssid + result.Level);
+            ////}
             //myPin.Location = new Location { Latitude = 52.22207512938468, Longitude = 21.006942987442017 };
             //myPin.Details = "Hello";
             //ClearOldPins();
