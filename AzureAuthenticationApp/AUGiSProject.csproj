@@ -50,7 +50,7 @@
     <Compile Include="Models\UserPin.cs" />
     <Compile Include="Models\RoomLocator.cs" />
     <Compile Include="Models\UI\CustomMap.cs" />
-    <Compile Include="Models\PositionInfo.cs" />
+    <Compile Include="Models\Azure Tables\PositionInfo.cs" />
     <Compile Include="Models\UI\ExtendedPin.cs" />
     <Compile Include="Models\User.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -59,7 +59,7 @@
       <DependentUpon>TodoList.xaml</DependentUpon>
     </Compile>
     <Compile Include="Constants\AppConstants.cs" />
-    <Compile Include="Models\TodoItem.cs" />
+    <Compile Include="Models\Azure Tables\TodoItem.cs" />
     <Compile Include="Helpers\TodoItemManager.cs" />
     <Compile Include="Views\MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>

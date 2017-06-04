@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using AzureAuthenticationApp.Helpers;
 using AzureAuthenticationApp.Models;
+using AzureAuthenticationApp.Models.Azure_Tables;
 using Xamarin.Forms;
 
 namespace AzureAuthenticationApp

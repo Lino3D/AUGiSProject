@@ -68,6 +68,7 @@ namespace AzureAuthenticationApp.Droid.Models
 
             androidMapView.Map.MarkerClick += HandleMarkerClick;
             androidMapView.Map.MyLocationEnabled = formsMap.IsShowingUser;
+            UpdateTile();
 
             var items = formsMap.Items;
 
@@ -118,7 +119,9 @@ namespace AzureAuthenticationApp.Droid.Models
 
             if (e.PropertyName == CustomMap.MapTileTemplateProperty.PropertyName)
             {
+                mapView.Map.Clear();
                 UpdateTile();
+                UpdatePins();
             }
             if (!e.PropertyName.Equals("VisibleRegion") || _isDrawnDone) return;
             UpdatePins();
@@ -127,7 +130,7 @@ namespace AzureAuthenticationApp.Droid.Models
         }
         private void UpdateTile()
         {
-            mapView.Map.Clear();
+
             var tileProvider = new CustomTileProvider(512, 512, customMap.MapTileTemplate);
             var options = new TileOverlayOptions().InvokeTileProvider(tileProvider);
             mapView.Map.AddTileOverlay(options);

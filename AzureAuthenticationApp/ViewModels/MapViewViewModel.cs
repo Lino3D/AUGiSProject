@@ -138,11 +138,11 @@ namespace AzureAuthenticationApp.ViewModels
         private async void ManualLocation()
         {
             CheckGPS();
-            //var results = CrossWifiInfo.Current.ScanResults;
-            //foreach (var result in results)
-            //{
-            //    Dialogs.Alert(result.Bssid + result.Level);
-            //}
+            var results = CrossWifiInfo.Current.ScanResults;
+            foreach (var result in results)
+            {
+                Dialogs.Alert(result.Bssid + result.Level);
+            }
 
 
             ConnectionHandler.Connected = CrossConnectivity.Current.IsConnected;
@@ -151,6 +151,12 @@ namespace AzureAuthenticationApp.ViewModels
             var response = await AzureStorageManager.PerformRequestQueue(ConnectionHandler.GetScanResultString());
             if (!string.IsNullOrEmpty(response))
                 GetLocation(response);
+
+
+            //myPin.Location = new Location { Latitude = 52.22207512938468, Longitude = 21.006942987442017 };
+            //myPin.Details = "Hello";
+            //ClearOldPins();
+            //UserPins.Add(myPin);
         }
 
         public void CheckGPS()

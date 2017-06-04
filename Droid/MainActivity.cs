@@ -8,6 +8,7 @@ using AzureAuthenticationApp.Models;
 using Microsoft.WindowsAzure.MobileServices;
 using System;
 using System.Threading.Tasks;
+using AzureAuthenticationApp.Models.Azure_Tables;
 
 namespace AzureAuthenticationApp.Droid
 {

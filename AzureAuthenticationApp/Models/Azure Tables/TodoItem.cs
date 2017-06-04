@@ -2,7 +2,7 @@
 using Microsoft.WindowsAzure.MobileServices;
 using Newtonsoft.Json;
 
-namespace AzureAuthenticationApp.Models
+namespace AzureAuthenticationApp.Models.Azure_Tables
 {
 	public class TodoItem :IAzureItem
 	{

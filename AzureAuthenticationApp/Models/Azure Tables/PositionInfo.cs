@@ -1,13 +1,8 @@
-﻿using Microsoft.WindowsAzure.MobileServices;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using AzureAuthenticationApp.Models.Interfaces;
+﻿using AzureAuthenticationApp.Models.Interfaces;
+using Microsoft.WindowsAzure.MobileServices;
 using Newtonsoft.Json;
 
-namespace AzureAuthenticationApp.Models
+namespace AzureAuthenticationApp.Models.Azure_Tables
 {
     public class PositionInfo : IAzureItem
     {
