@@ -138,12 +138,6 @@ namespace AzureAuthenticationApp.ViewModels
         private async void ManualLocation()
         {
             CheckGPS();
-            var results = CrossWifiInfo.Current.ScanResults;
-            foreach (var result in results)
-            {
-                Dialogs.Alert(result.Bssid + result.Level);
-            }
-
 
             ConnectionHandler.Connected = CrossConnectivity.Current.IsConnected;
             ConnectionHandler.CurrectConnectionTypes = CrossConnectivity.Current.ConnectionTypes.ToList();
@@ -153,10 +147,20 @@ namespace AzureAuthenticationApp.ViewModels
                 GetLocation(response);
 
 
+
+            #region TestingCode
+
+            //var results = CrossWifiInfo.Current.ScanResults;
+            //foreach (var result in results)
+            //{
+            //    Dialogs.Alert(result.Bssid + result.Level);
+            //}
             //myPin.Location = new Location { Latitude = 52.22207512938468, Longitude = 21.006942987442017 };
             //myPin.Details = "Hello";
             //ClearOldPins();
             //UserPins.Add(myPin);
+
+            #endregion
         }
 
         public void CheckGPS()
