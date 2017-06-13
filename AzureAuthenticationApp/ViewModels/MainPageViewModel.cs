@@ -14,7 +14,6 @@ namespace AzureAuthenticationApp.ViewModels
         public MainPageViewModel(INavigation navigation)
         {
             Navigation = navigation;
-            MoveToDoListCommand = new Command(MoveToDoList);
             IncreaseCountCommand = new Command(IncreaseCount);
             LoginCommand = new Command(Login);
             OpenMapCommand = new Command(OpenMap);
@@ -38,12 +37,6 @@ namespace AzureAuthenticationApp.ViewModels
         private void IncreaseCount() =>
             CountDisplay = $"You clicked {++count} times";
 
-        public ICommand MoveToDoListCommand { get; }
-
-        public async void MoveToDoList()
-        {
-            await Navigation.PushAsync(new TodoList());
-        }
 
         public bool Authenticated
         {

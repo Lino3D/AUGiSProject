@@ -1,8 +1,6 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:maps="clr-namespace:Xamarin.Forms.Maps;assembly=Xamarin.Forms.Maps"
-             xmlns:models="clr-namespace:AzureAuthenticationApp.Models;assembly=AzureAuthenticationApp"
              xmlns:converters="clr-namespace:AzureAuthenticationApp.Converters;assembly=AzureAuthenticationApp"
              xmlns:ui="clr-namespace:AzureAuthenticationApp.Models.UI;assembly=AzureAuthenticationApp"
              x:Class="AzureAuthenticationApp.Views.MapView"
@@ -16,12 +14,13 @@
     </ContentPage.Resources>
     <ScrollView>
         <StackLayout Padding="10">
-            <!--      <WebView x:Name="MapDisplayView" WidthRequest="1000" HeightRequest="500" VerticalOptions="FillAndExpand"></WebView>-->
-            <ui:CustomMap x:Name="MyMap"   WidthRequest="320" HeightRequest="200"
-                              MapTileTemplate="{Binding FloorNumber, Converter= {StaticResource FloorToUrl}}" Test="MyMap"/>
-            <Picker x:Name="FloorPicker"  ItemsSource="{Binding FloorsList}"  SelectedItem="{Binding FloorNumber}" ></Picker>
-            <Button Text="Locate me!" x:Name="LocationButton" Command="{Binding GetLocationCommand}"></Button>
+            <ui:CustomMap x:Name="MyMap" WidthRequest="320" HeightRequest="200" 
+                          MapTileTemplate="{Binding FloorNumber, 
+                Converter=  {StaticResource FloorToUrl}}" />
+            <Picker x:Name="FloorPicker"  ItemsSource="{Binding FloorsList}"  
+                    SelectedItem="{Binding FloorNumber}" ></Picker>
+            <Button Text="Locate me!" x:Name="LocationButton" 
+                    Command="{Binding GetLocationCommand}"></Button>
         </StackLayout>
-       
     </ScrollView>
 </ContentPage>

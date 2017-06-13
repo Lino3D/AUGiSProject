@@ -1,7 +1,6 @@
 ﻿using Acr.UserDialogs;
 using AzureAuthenticationApp.Helpers;
 using AzureAuthenticationApp.ViewModels;
-using System;
 using Xamarin.Forms;
 using Xamarin.Forms.Maps;
 using Xamarin.Forms.Xaml;
@@ -27,30 +26,6 @@ namespace AzureAuthenticationApp.Views
 
             ViewModel.UserPins.CollectionChanged += UpdatePins;
 
-        }
-        private async void LocationButton_OnClicked(object sender, EventArgs e)
-        {
-            //     // var locator = CrossGeolocator.Current;
-            //      var position = await locator.GetPositionAsync(1000);
-            //      if (position == null) return;
-            //      var lat = position.Latitude;
-            //      var lon = position.Longitude;
-            //      var message = string.Format("Lat: {0}, Lon {1}", lat, lon);
-            //      DisplayAlert("Your Position, adding to azure" , message, "Cancel");
-
-            //     // var posInfo = new PositionInfo(lon, lat, 0, "0");
-            //      var pos = new Position(lat, lon);
-            //      var pin = new Pin
-            //      {
-            //          Type = PinType.Place,
-            //          Position = pos,
-            //          Label = "custom pin",
-            //          Address = "custom detail info"
-            //      };
-            //      MyMap.Pins.Add(pin);
-            //  //    MyMap.MoveToRegion(
-            ////          MapSpan.FromCenterAndRadius( pos, Distance.FromMiles(0.3)));
-            // //     await manager.SaveAsync(posInfo);
         }
         private void UpdatePins(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
