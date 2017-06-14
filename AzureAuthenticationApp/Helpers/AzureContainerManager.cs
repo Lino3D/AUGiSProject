@@ -50,7 +50,7 @@ namespace AzureAuthenticationApp.Helpers
             {
                 await DownloadQueue.CreateIfNotExistsAsync();
                 CloudQueueMessage message = null;
-                for (var i = 0; i < 8; i++)
+                for (var i = 0; i < 6; i++)
                 {
                     message = await DownloadQueue.GetMessageAsync();
                     if (message != null)
@@ -58,7 +58,7 @@ namespace AzureAuthenticationApp.Helpers
                         await DownloadQueue.DeleteMessageAsync(message);
                         break;
                     }
-                    await Task.Delay(3000);
+                    await Task.Delay(5000);
 
                 }
 

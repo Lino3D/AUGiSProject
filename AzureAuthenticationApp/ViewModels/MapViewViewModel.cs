@@ -110,14 +110,16 @@ namespace AzureAuthenticationApp.ViewModels
         public async void GetLocation(string data)
         {
             var position = new Position();
+            var geo = CrossGeolocator.Current;
+            geo.DesiredAccuracy = 100;
             try
             {
-                position = await _mainGeolocator.GetPositionAsync(5000);
+                position = await geo.GetPositionAsync(8000);
             }
-            catch (Exception)
+            catch (Exception ex)
             {
-                Dialogs.ShowError("Unable to get location, try again ");
-
+                Dialogs.ShowError("Unable to get location, try again " + ex.Message);
+                return;
             }
             if (position == null) return;
             myPin.Location = new Location { Latitude = position.Latitude, Longitude = position.Longitude };
@@ -137,15 +139,22 @@ namespace AzureAuthenticationApp.ViewModels
 
         private async void ManualLocation()
         {
-            CheckGPS();
-
-            ConnectionHandler.Connected = CrossConnectivity.Current.IsConnected;
-            ConnectionHandler.CurrectConnectionTypes = CrossConnectivity.Current.ConnectionTypes.ToList();
-            ConnectionHandler.CalculateStrenghts();
-            var response = await AzureStorageManager.PerformRequestQueue(ConnectionHandler.GetScanResultString());
-            if (!string.IsNullOrEmpty(response))
-                GetLocation(response);
-
+            try
+            {
+                CheckGPS();
+                ConnectionHandler.Connected = CrossConnectivity.Current.IsConnected;
+                ConnectionHandler.CurrectConnectionTypes = CrossConnectivity.Current.ConnectionTypes.ToList();
+                ConnectionHandler.CalculateStrenghts();
+                var response = await AzureStorageManager.PerformRequestQueue(ConnectionHandler.GetScanResultString());
+                if (!string.IsNullOrEmpty(response))
+                    GetLocation(response + "piętro");
+                else
+                    GetLocation("Nie udało się zidentyfikować piętra");
+            }
+            catch (Exception ex)
+            {
+                Dialogs.ShowError("Unable to get location, try again ", 1000);
+            }
 
 
             #region TestingCode
